@@ -346,3 +346,24 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 **Made with ❤️ for the ComfyUI community**
+
+## 📚 Citation
+
+### Academic Citation
+
+If you use this codebase in your research or project, please cite:
+
+```bibtex
+@software{comfyui_yesterday,
+  title = {ComfyUI Yesterday: scheduling local api},
+  author = {[Drift Johnson]},
+  year = {2025},
+  url = {https://github.com/MushroomFleet/ComfyUI-Yesterday},
+  version = {1.0.0}
+}
+```
+
+### Donate:
+
+
+[![Ko-Fi](https://cdn.ko-fi.com/cdn/kofi3.png?v=3)](https://ko-fi.com/driftjohnson)
