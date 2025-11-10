@@ -25,6 +25,7 @@ A modern React application that extends ComfyUI with calendar-based scheduling a
 - **Task Cards**: Color-coded appointment cards with status indicators
 - **Drag & Drop**: Intuitive workflow assignment to calendar dates
 - **Edit & Manage**: Modify or delete scheduled tasks with ease
+- **Parameter Customization**: Edit seeds and prompts per scheduled task
 
 ### ⚡ Automatic Execution
 - **Background Scheduler**: Continuously monitors for upcoming tasks
@@ -644,33 +645,98 @@ This project is open source and available under the [MIT License](LICENSE).
 - ✅ IndexedDB data persistence
 - ✅ Real-time progress monitoring
 
-### Future Enhancements
+### Version 1.1 (Next Release) - Workflow Management Enhancements
 
-#### Version 1.1
-- [ ] Workflow parameter editing (un-bake workflows)
-- [ ] Enhanced task history with filtering and search
-- [ ] Workflow templates library
-- [ ] Import/export workflow collections
+**Priority 1: Import/Export Workflow Collections** (~2-3 days)
+- [ ] Export workflows as JSON collections
+- [ ] Import workflow collections with validation
+- [ ] Batch workflow operations
+- [ ] Data backup and restore functionality
 
-#### Version 1.2
-- [ ] Recurring tasks (daily, weekly, monthly schedules)
-- [ ] Batch scheduling (multiple tasks at once)
-- [ ] Task templates and presets
-- [ ] Advanced queue management
+**Priority 2: Workflow Templates Library** (~3-4 days)
+- [ ] Curated starter workflow templates
+- [ ] Template categorization and preview
+- [ ] Community template sharing
+- [ ] Template import from library
 
-#### Version 2.0
-- [ ] Electron app wrapper (always-on scheduling)
-- [ ] Multi-ComfyUI server support
-- [ ] Cloud sync (optional, user data backup)
-- [ ] Mobile companion app (React Native)
+**Priority 3: Workflow Parameter Editing** (~5-7 days) ✅
+- [x] Seed randomization control (toggle random/fixed seeds)
+- [x] Prompt text editing
+- [x] Parameter value adjustment per scheduled task
+- [x] Visual indicators for customized tasks
+- [x] Real-time parameter validation
 
-#### Future Considerations
-- [ ] Team collaboration features
-- [ ] Workflow marketplace/sharing
-- [ ] Advanced analytics and insights
-- [ ] Custom node support documentation
-- [ ] Multi-language support
-- [ ] Theme customization engine
+**Estimated Timeline:** 3-4 weeks
+
+### Version 1.2 - Scheduling & History Enhancements
+
+**Priority 1: Enhanced Task History** (~2-3 days)
+- [ ] Advanced filtering (status, workflow, date range)
+- [ ] Full-text search across tasks
+- [ ] Bulk operations (delete, re-run multiple tasks)
+- [ ] Export history reports
+- [ ] Task analytics and statistics
+
+**Priority 2: Task Templates and Presets** (~3-4 days)
+- [ ] Reusable scheduling patterns
+- [ ] Quick schedule templates ("Daily at 9am", "Weekend batch")
+- [ ] Template sharing and import/export
+- [ ] Custom preset creation
+
+**Priority 3: Recurring Tasks** (~5-7 days)
+- [ ] Daily, weekly, monthly schedule rules
+- [ ] Advanced recurrence patterns (cron-like)
+- [ ] Rule-based scheduling engine
+- [ ] Next-run calculation and preview
+- [ ] Exception dates and pausing
+- [ ] Recurring task management UI
+
+**Estimated Timeline:** 3-4 weeks
+
+### Version 2.0 - Ecosystem Expansion
+
+#### Always-On Scheduling
+- [ ] Electron app wrapper for background operation
+- [ ] System tray integration
+- [ ] Auto-start on system boot
+- [ ] Power management integration
+
+#### Multi-Server Support
+- [ ] Connect to multiple ComfyUI instances
+- [ ] Server health monitoring
+- [ ] Load balancing between servers
+- [ ] Server selection per workflow
+
+#### Cloud & Sync
+- [ ] Optional cloud backup (user-controlled)
+- [ ] Cross-device synchronization
+- [ ] Collaborative workflow sharing
+- [ ] Team workspace features
+
+#### Mobile Companion
+- [ ] React Native mobile app
+- [ ] Task monitoring on-the-go
+- [ ] Push notifications
+- [ ] Quick schedule creation
+
+**Estimated Timeline:** 8-12 weeks
+
+### Quick Wins (Can be added anytime)
+- [ ] Workflow duplication (30 min)
+- [ ] Bulk tag operations (1 hour)
+- [ ] "Run in 5 minutes" quick schedule (1 hour)
+- [ ] Notification sound on completion (30 min)
+- [ ] Dark/light theme toggle (2 hours)
+- [ ] Keyboard shortcuts (2 hours)
+
+### Long-Term Vision
+- [ ] Workflow marketplace with ratings and reviews
+- [ ] Advanced analytics dashboard
+- [ ] Custom node documentation generator
+- [ ] Multi-language internationalization (i18n)
+- [ ] Plugin/extension system
+- [ ] AI-assisted workflow optimization
+- [ ] Integration with other AI tools (Stable Diffusion WebUI, etc.)
 
 ## 📊 Project Status
 

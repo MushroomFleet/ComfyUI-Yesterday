@@ -1,0 +1,874 @@
+{
+  "1": {
+    "inputs": {
+      "seed": 63851789848097,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "beta",
+      "denoise": 0.57,
+      "model": [
+        "80",
+        0
+      ],
+      "positive": [
+        "72",
+        0
+      ],
+      "negative": [
+        "71",
+        0
+      ],
+      "latent_image": [
+        "48",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "2": {
+    "inputs": {
+      "anything": [
+        "69",
+        0
+      ]
+    },
+    "class_type": "easy cleanGpuUsed",
+    "_meta": {
+      "title": "Clean VRAM Used"
+    }
+  },
+  "3": {
+    "inputs": {
+      "nag_scale": 5.000000000000001,
+      "nag_alpha": 0.25000000000000006,
+      "nag_tau": 2.5,
+      "input_type": "default",
+      "model": [
+        "98",
+        0
+      ],
+      "conditioning": [
+        "71",
+        0
+      ]
+    },
+    "class_type": "WanVideoNAG",
+    "_meta": {
+      "title": "WanVideoNAG"
+    }
+  },
+  "5": {
+    "inputs": {
+      "filename_prefix": [
+        "8",
+        0
+      ],
+      "images": [
+        "25",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "8": {
+    "inputs": {
+      "root": "WAN22",
+      "project_name": "thorra-cysocv66",
+      "subfolder": "i2i-single",
+      "filename": "tiled",
+      "separator": "auto"
+    },
+    "class_type": "ProjectFilePathNode",
+    "_meta": {
+      "title": "Project File Path Generator"
+    }
+  },
+  "9": {
+    "inputs": {
+      "width": [
+        "66",
+        0
+      ],
+      "height": [
+        "66",
+        1
+      ],
+      "interpolation": "nearest",
+      "method": "stretch",
+      "condition": "always",
+      "multiple_of": 32,
+      "image": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "19": {
+    "inputs": {
+      "text": "poorly drawn, bad anatomy, bad hands, bad eyes, missing fingers, extra fingers, ugly, deformed, disfigured, blurry, grainy, out of focus, low resolution, amateur, poorly lit, oversaturated, undersaturated, watermark, signature, text, writing, noise, artifacts, templar",
+      "clip": [
+        "98",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Negative Prompt)"
+    }
+  },
+  "20": {
+    "inputs": {
+      "anything": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "easy clearCacheAll",
+    "_meta": {
+      "title": "Clear Cache All"
+    }
+  },
+  "21": {
+    "inputs": {
+      "anything": [
+        "77",
+        0
+      ]
+    },
+    "class_type": "easy cleanGpuUsed",
+    "_meta": {
+      "title": "Clean VRAM Used"
+    }
+  },
+  "22": {
+    "inputs": {
+      "nag_scale": 5.000000000000001,
+      "nag_alpha": 0.25000000000000006,
+      "nag_tau": 2.5,
+      "input_type": "default",
+      "model": [
+        "98",
+        0
+      ],
+      "conditioning": [
+        "71",
+        0
+      ]
+    },
+    "class_type": "WanVideoNAG",
+    "_meta": {
+      "title": "WanVideoNAG"
+    }
+  },
+  "23": {
+    "inputs": {
+      "shift": 1.5000000000000002,
+      "model": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "Shift"
+    }
+  },
+  "24": {
+    "inputs": {
+      "filename_prefix": [
+        "78",
+        0
+      ],
+      "images": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "25": {
+    "inputs": {
+      "anything": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "easy clearCacheAll",
+    "_meta": {
+      "title": "Clear Cache All"
+    }
+  },
+  "39": {
+    "inputs": {
+      "text": [
+        "67",
+        0
+      ],
+      "clip": [
+        "98",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Positive Prompt)"
+    }
+  },
+  "47": {
+    "inputs": {
+      "prompt_folder": "abstractchaos-v1",
+      "seed": 27551289,
+      "mode": "random",
+      "num_images": 1,
+      "blacklist": ""
+    },
+    "class_type": "ZenkaiImagePromptV2",
+    "_meta": {
+      "title": "Zenkai Image Prompt V2"
+    }
+  },
+  "48": {
+    "inputs": {
+      "tile_size": 128,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8,
+      "pixels": [
+        "9",
+        0
+      ],
+      "vae": [
+        "62",
+        0
+      ]
+    },
+    "class_type": "VAEEncodeTiled",
+    "_meta": {
+      "title": "VAE Encode (Tiled)"
+    }
+  },
+  "51": {
+    "inputs": {
+      "tile_size": 256,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8,
+      "pixels": [
+        "86",
+        0
+      ],
+      "vae": [
+        "62",
+        0
+      ]
+    },
+    "class_type": "VAEEncodeTiled",
+    "_meta": {
+      "title": "VAE Encode (Tiled)"
+    }
+  },
+  "52": {
+    "inputs": {
+      "seed": 1068929583927946,
+      "steps": 4,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "beta",
+      "denoise": 0.15000000000000002,
+      "model": [
+        "23",
+        0
+      ],
+      "positive": [
+        "72",
+        0
+      ],
+      "negative": [
+        "71",
+        0
+      ],
+      "latent_image": [
+        "51",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "57": {
+    "inputs": {
+      "model_type": "Cascade",
+      "downscale_factor": 32,
+      "rounding_method": "up",
+      "preserve_original": "none",
+      "force_square": false,
+      "scaling_factor": 1,
+      "max_width": 8192,
+      "max_height": 8192,
+      "image": [
+        "69",
+        0
+      ]
+    },
+    "class_type": "ImageSizeAdjusterV2",
+    "_meta": {
+      "title": "Image Size Adjuster V2"
+    }
+  },
+  "59": {
+    "inputs": {
+      "unet_name": "Wan2.2-T2V-A14B-LowNoise-Q8_0.gguf"
+    },
+    "class_type": "UnetLoaderGGUF",
+    "_meta": {
+      "title": "Unet Loader (GGUF)"
+    }
+  },
+  "60": {
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP"
+    }
+  },
+  "61": {
+    "inputs": {
+      "clip_name": "umt5-xxl-encoder-Q8_0.gguf",
+      "type": "wan"
+    },
+    "class_type": "CLIPLoaderGGUF",
+    "_meta": {
+      "title": "CLIPLoader (GGUF)"
+    }
+  },
+  "62": {
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "63": {
+    "inputs": {
+      "clip_name": "clip_vision_h.safetensors"
+    },
+    "class_type": "CLIPVisionLoader",
+    "_meta": {
+      "title": "Load CLIP Vision"
+    }
+  },
+  "66": {
+    "inputs": {
+      "model_type": "WAN22",
+      "downscale_factor": 32,
+      "rounding_method": "up",
+      "preserve_original": "none",
+      "force_square": false,
+      "scaling_factor": 1,
+      "max_width": 8192,
+      "max_height": 8192,
+      "image": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "ImageSizeAdjusterV2",
+    "_meta": {
+      "title": "Image Size Adjuster V2"
+    }
+  },
+  "67": {
+    "inputs": {
+      "text_0": "(4bstr4ct ch40s style:1), \"High-quality digital art in CH40S style, showcasing a surreal and fantastical landscape with intricate cosmic patterns interwoven in a dark and dramatic sky. A large black void dominates the top portion, surrounded by swirling red and orange clouds giving an impression of cosmic upheaval. Below, a meticulously detailed cityscape features elongated structures extending into the horizon, seamlessly blending into the chaotic backdrop. The lower half presents a contrasting scene with a glowing sun and a smaller celestial body hovering in a lighter, swirling vortex, creating dynamic tension between darkness and light, chaos and order. The entire composition exudes an otherworldly, mesmerizing quality that captivates the viewer. Symmetrical framing with central focus on the void and cityscape, rich texture details, vibrant color palette of deep blacks and fiery reds/oranges, and smooth blending of elements. Shot in a wide-angle perspective to emphasize scale and drama.\"",
+      "text": [
+        "88",
+        0
+      ]
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text 🐍"
+    }
+  },
+  "69": {
+    "inputs": {
+      "tile_size": 256,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8,
+      "samples": [
+        "1",
+        0
+      ],
+      "vae": [
+        "62",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeTiled",
+    "_meta": {
+      "title": "VAE Decode (Tiled)"
+    }
+  },
+  "70": {
+    "inputs": {
+      "Prepend": "use vision to identify features for the prompt enhancement, without giving feedback or introduction, only the prompt is needed in the output, enhance the prompt",
+      "Append": [
+        "47",
+        1
+      ],
+      "Delimiter": ": "
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "String Concatenate"
+    }
+  },
+  "71": {
+    "inputs": {
+      "text": "poorly drawn, bad anatomy, bad hands, bad eyes, missing fingers, extra fingers, ugly, deformed, disfigured, blurry, grainy, out of focus, low resolution, amateur, poorly lit, oversaturated, undersaturated, watermark, signature, text, writing, noise, artifacts, templar",
+      "clip": [
+        "98",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Negative Prompt)"
+    }
+  },
+  "72": {
+    "inputs": {
+      "text": [
+        "67",
+        0
+      ],
+      "clip": [
+        "98",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Positive Prompt)"
+    }
+  },
+  "73": {
+    "inputs": {
+      "images": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "75": {
+    "inputs": {
+      "image": [
+        "77",
+        0
+      ]
+    },
+    "class_type": "GetImageSize+",
+    "_meta": {
+      "title": "🔧 Get Image Size"
+    }
+  },
+  "76": {
+    "inputs": {
+      "width": [
+        "75",
+        0
+      ],
+      "height": [
+        "75",
+        1
+      ],
+      "interpolation": "bicubic",
+      "method": "stretch",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "77": {
+    "inputs": {
+      "tile_size": 256,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8,
+      "samples": [
+        "52",
+        0
+      ],
+      "vae": [
+        "62",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeTiled",
+    "_meta": {
+      "title": "VAE Decode (Tiled)"
+    }
+  },
+  "78": {
+    "inputs": {
+      "root": "WAN22",
+      "project_name": "thorra-cysocv66",
+      "subfolder": "t2i-single",
+      "filename": "tiled",
+      "separator": "auto"
+    },
+    "class_type": "ProjectFilePathNode",
+    "_meta": {
+      "title": "Project File Path Generator"
+    }
+  },
+  "79": {
+    "inputs": {
+      "root": "WAN22",
+      "project_name": "thorra-cysocv66",
+      "subfolder": "t2i-single",
+      "filename": "compare",
+      "separator": "auto"
+    },
+    "class_type": "ProjectFilePathNode",
+    "_meta": {
+      "title": "Project File Path Generator"
+    }
+  },
+  "80": {
+    "inputs": {
+      "shift": 1.5000000000000002,
+      "model": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "Shift"
+    }
+  },
+  "82": {
+    "inputs": {
+      "filename_prefix": [
+        "79",
+        0
+      ],
+      "images": [
+        "92",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "84": {
+    "inputs": {
+      "enable_mirostat": false,
+      "mirostat": 0,
+      "enable_mirostat_eta": false,
+      "mirostat_eta": 0.1,
+      "enable_mirostat_tau": false,
+      "mirostat_tau": 5,
+      "enable_num_ctx": false,
+      "num_ctx": 2048,
+      "enable_repeat_last_n": false,
+      "repeat_last_n": 64,
+      "enable_repeat_penalty": false,
+      "repeat_penalty": 1.1,
+      "enable_temperature": false,
+      "temperature": 0.8,
+      "enable_seed": false,
+      "seed": 1998784787,
+      "enable_stop": false,
+      "stop": "",
+      "enable_tfs_z": false,
+      "tfs_z": 1,
+      "enable_num_predict": false,
+      "num_predict": -1,
+      "enable_top_k": false,
+      "top_k": 40,
+      "enable_top_p": false,
+      "top_p": 0.9,
+      "enable_min_p": false,
+      "min_p": 0,
+      "debug": false
+    },
+    "class_type": "OllamaOptionsV2",
+    "_meta": {
+      "title": "Ollama Options V2"
+    }
+  },
+  "85": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "interpolation": "nearest",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "47",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "86": {
+    "inputs": {
+      "width": [
+        "57",
+        0
+      ],
+      "height": [
+        "57",
+        1
+      ],
+      "interpolation": "lanczos",
+      "method": "stretch",
+      "condition": "always",
+      "multiple_of": 32,
+      "image": [
+        "69",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "88": {
+    "inputs": {
+      "Prepend": "(4bstr4ct ch40s style:1)",
+      "Append": [
+        "100",
+        0
+      ],
+      "Delimiter": ", "
+    },
+    "class_type": "DF_String_Concatenate",
+    "_meta": {
+      "title": "String Concatenate"
+    }
+  },
+  "89": {
+    "inputs": {
+      "enh_file": "t2i-base-ENH.md"
+    },
+    "class_type": "ZenkaiENH",
+    "_meta": {
+      "title": "Zenkai-ENH"
+    }
+  },
+  "92": {
+    "inputs": {
+      "direction": "right",
+      "match_image_size": true,
+      "image1": [
+        "76",
+        0
+      ],
+      "image2": [
+        "77",
+        0
+      ]
+    },
+    "class_type": "easy imageConcat",
+    "_meta": {
+      "title": "imageConcat"
+    }
+  },
+  "98": {
+    "inputs": {
+      "PowerLoraLoaderHeaderWidget": {
+        "type": "PowerLoraLoaderHeaderWidget"
+      },
+      "lora_1": {
+        "on": true,
+        "lora": "wan14b\\Wan21_T2V_14B_lightx2v_cfg_step_distill_lora_rank32.safetensors",
+        "strength": 1
+      },
+      "lora_2": {
+        "on": true,
+        "lora": "AAA_testing\\wan\\4bstr4ct-style-v0c.safetensors",
+        "strength": 0.4
+      },
+      "lora_3": {
+        "on": true,
+        "lora": "AAA_testing\\wan\\ch40s-style-v0c.safetensors",
+        "strength": 0.4
+      },
+      "lora_4": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\fu510n-style-v0.safetensors",
+        "strength": 0.75
+      },
+      "lora_5": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\posterfusion-style-v0.safetensors",
+        "strength": 0.75
+      },
+      "lora_6": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\4rt4rt-style-v0c.safetensors",
+        "strength": 0.4
+      },
+      "lora_7": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\th0rr4-wan-v0.safetensors",
+        "strength": 0.8
+      },
+      "lora_8": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\fu510n-style-v0c.safetensors",
+        "strength": 0.4
+      },
+      "lora_9": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\y0k4i-warrior-woman-v0p.safetensors",
+        "strength": 0.75
+      },
+      "lora_10": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\w4rt0rn-style-v0.safetensors",
+        "strength": 0.75
+      },
+      "lora_11": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\WAN-assassinkahb-style-v0.safetensors",
+        "strength": 0.6
+      },
+      "lora_12": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\sh4r0na-woman-v5a.safetensors",
+        "strength": 0.65
+      },
+      "lora_13": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\G1G3R-v0.safetensors",
+        "strength": 0.55
+      },
+      "lora_14": {
+        "on": false,
+        "lora": "AAA_testing\\wan\\b05ch-style-v0b.safetensors",
+        "strength": 0.75
+      },
+      "lora_15": {
+        "on": true,
+        "lora": "wan14b\\Wan2.1_T2V_14B_FusionX_LoRA.safetensors",
+        "strength": 0.4
+      },
+      "➕ Add Lora": "",
+      "model": [
+        "59",
+        0
+      ],
+      "clip": [
+        "61",
+        0
+      ]
+    },
+    "class_type": "Power Lora Loader (rgthree)",
+    "_meta": {
+      "title": "Power Lora Loader (rgthree)"
+    }
+  },
+  "100": {
+    "inputs": {
+      "system": [
+        "89",
+        0
+      ],
+      "prompt": [
+        "70",
+        0
+      ],
+      "filter_thinking": true,
+      "keep_context": false,
+      "format": "text",
+      "connectivity": [
+        "102",
+        0
+      ],
+      "options": [
+        "84",
+        0
+      ],
+      "images": [
+        "85",
+        0
+      ]
+    },
+    "class_type": "OllamaGenerateV2",
+    "_meta": {
+      "title": "Ollama Generate V2"
+    }
+  },
+  "102": {
+    "inputs": {
+      "url": "http://127.0.0.1:11434",
+      "model": "blaifa/InternVL3_5:4B",
+      "keep_alive": 0,
+      "keep_alive_unit": "minutes"
+    },
+    "class_type": "OllamaConnectivityV2",
+    "_meta": {
+      "title": "Ollama Connectivity V2"
+    }
+  },
+  "103": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "profile": "abstractchaos",
+      "upload_enabled": true,
+      "images": [
+        "77",
+        0
+      ]
+    },
+    "class_type": "SaveImageSCP",
+    "_meta": {
+      "title": "Save Image (SCP Upload)"
+    }
+  }
+}
