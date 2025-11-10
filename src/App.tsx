@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/layout/Layout";
 import { Dashboard } from "./pages/Dashboard";
 import WorkflowLibrary from "./pages/WorkflowLibrary";
@@ -15,13 +15,19 @@ import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 
 const queryClient = new QueryClient();
 
+// Detect Electron environment and use appropriate router
+// HashRouter is required for Electron (file:// protocol)
+// BrowserRouter provides clean URLs for web deployment
+const isElectron = typeof window !== 'undefined' && window.electronAPI?.isElectron;
+const Router = isElectron ? HashRouter : BrowserRouter;
+
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <Router>
           <Routes>
             {/* Main Layout with all pages */}
             <Route element={<Layout />}>
@@ -36,7 +42,7 @@ const App = () => (
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </TooltipProvider>
     </QueryClientProvider>
   </ErrorBoundary>

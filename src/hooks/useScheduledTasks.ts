@@ -45,6 +45,24 @@ export function useScheduledTasks(filters?: TaskFilterOptions) {
   }, []);
 
   /**
+   * Create multiple tasks in bulk (for recurring tasks)
+   */
+  const createTasksBulk = useCallback(async (inputs: CreateTaskInput[]) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const tasks = await taskStorage.createTasksBulk(inputs);
+      return tasks;
+    } catch (err) {
+      const error = err as Error;
+      setError(error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  /**
    * Update a task
    */
   const updateTask = useCallback(async (id: string, updates: UpdateTaskInput) => {
@@ -101,14 +119,44 @@ export function useScheduledTasks(filters?: TaskFilterOptions) {
     }
   }, []);
 
+  /**
+   * Delete a task and all related tasks in same series (for recurring tasks)
+   */
+  const deleteTaskSeries = useCallback(async (task: ScheduledTask) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      if (task.seriesId) {
+        // Delete all tasks in the series
+        const allTasks = await taskStorage.getAllTasks();
+        const seriesToDelete = allTasks.filter(t => t.seriesId === task.seriesId);
+        
+        for (const t of seriesToDelete) {
+          await taskStorage.deleteTask(t.id);
+        }
+      } else {
+        // Just delete single task
+        await taskStorage.deleteTask(task.id);
+      }
+    } catch (err) {
+      const error = err as Error;
+      setError(error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     tasks: tasks || [],
     isLoading,
     error,
     createTask,
+    createTasksBulk,
     updateTask,
     updateTaskStatus,
     deleteTask,
+    deleteTaskSeries,
   };
 }
 

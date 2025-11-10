@@ -14,6 +14,7 @@ import {
   TaskPriority,
   TaskFilterOptions,
   TaskStatistics,
+  RecurrenceType,
 } from '../types/scheduled-task.types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -205,10 +206,46 @@ export class TaskStorageService {
       retryCount: 0,
       maxRetries: input.maxRetries ?? 3,
       priority: input.priority ?? TaskPriority.NORMAL,
+      parameterOverrides: input.parameterOverrides,
+      recurrenceType: input.recurrenceType ?? RecurrenceType.NONE,
+      seriesId: input.seriesId,
     };
 
     await db.scheduledTasks.add(task);
     return task;
+  }
+
+  /**
+   * Create multiple tasks in bulk (for recurring tasks)
+   */
+  async createTasksBulk(inputs: CreateTaskInput[]): Promise<ScheduledTask[]> {
+    if (inputs.length === 0) {
+      return [];
+    }
+
+    // Verify workflow exists (use first input's workflowId, all should be same)
+    const workflow = await db.workflowLibrary.get(inputs[0].workflowId);
+    if (!workflow) {
+      throw new Error(`Workflow with ID ${inputs[0].workflowId} not found`);
+    }
+
+    const tasks: ScheduledTask[] = inputs.map(input => ({
+      id: uuidv4(),
+      workflowId: input.workflowId,
+      workflowName: workflow.name,
+      scheduledTime: input.scheduledTime,
+      status: TaskStatus.PENDING,
+      createdAt: new Date(),
+      retryCount: 0,
+      maxRetries: input.maxRetries ?? 3,
+      priority: input.priority ?? TaskPriority.NORMAL,
+      parameterOverrides: input.parameterOverrides,
+      recurrenceType: input.recurrenceType ?? RecurrenceType.NONE,
+      seriesId: input.seriesId,
+    }));
+
+    await db.scheduledTasks.bulkAdd(tasks);
+    return tasks;
   }
 
   /**

@@ -1,5 +1,7 @@
 // src/types/scheduled-task.types.ts
 
+import { ParameterOverrides } from './workflow-parameters.types';
+
 /**
  * Status of a scheduled task
  */
@@ -10,6 +12,16 @@ export enum TaskStatus {
   FAILED = 'failed',         // Task failed with error
   CANCELLED = 'cancelled',   // Task was cancelled by user
   MISSED = 'missed',         // Task execution time passed while app was closed
+}
+
+/**
+ * Recurrence type for scheduled tasks
+ */
+export enum RecurrenceType {
+  NONE = 'none',      // Single occurrence (default)
+  DAILY = 'daily',    // Repeats every day at same time
+  WEEKLY = 'weekly',  // Repeats every 7 days
+  MONTHLY = 'monthly' // Repeats monthly on same day
 }
 
 /**
@@ -30,6 +42,9 @@ export interface ScheduledTask {
   retryCount: number;            // Number of retry attempts
   maxRetries: number;            // Maximum allowed retries
   priority: TaskPriority;        // Execution priority
+  parameterOverrides?: ParameterOverrides;  // Optional parameter customizations for this task
+  recurrenceType: RecurrenceType; // Type of recurrence (none, daily, weekly, monthly)
+  seriesId?: string;             // UUID linking all tasks in a recurring series (only for recurring tasks)
 }
 
 /**
@@ -59,6 +74,9 @@ export interface CreateTaskInput {
   scheduledTime: Date;
   priority?: TaskPriority;
   maxRetries?: number;
+  parameterOverrides?: ParameterOverrides;
+  recurrenceType?: RecurrenceType; // Type of recurrence (defaults to NONE)
+  seriesId?: string;               // UUID for linking recurring tasks (auto-generated if recurring)
 }
 
 /**

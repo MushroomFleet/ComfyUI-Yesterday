@@ -2,10 +2,25 @@ import { taskStorage, workflowStorage } from './storage.service';
 import { taskQueue } from './task-queue.service';
 import { TaskStatus, ScheduledTask } from '@/types/scheduled-task.types';
 import { ComfyUIService } from './comfyui.service';
+import { applyParameterOverrides } from '@/utils/workflow-parameters';
 import { toast } from 'sonner';
 
 // Create ComfyUI service instance
 const comfyUIService = new ComfyUIService();
+
+// Helper to check if running in Electron
+const isElectron = () => {
+  return typeof window !== 'undefined' && window.electronAPI?.isElectron;
+};
+
+// Helper to show notification (Electron or browser)
+const showNotification = (title: string, body: string) => {
+  if (isElectron() && window.electronAPI) {
+    window.electronAPI.showNotification(title, body);
+  }
+  // Always show toast as well for in-app feedback
+  toast.info(title, { description: body });
+};
 
 type TaskEventCallback = (task: ScheduledTask, event: string) => void;
 
@@ -143,8 +158,15 @@ export class SchedulerService {
         throw new Error(`Workflow not found: ${task.workflowId}`);
       }
 
+      // Apply parameter overrides if present
+      let workflowToExecute = workflow.workflow;
+      if (task.parameterOverrides) {
+        console.log('Applying parameter overrides:', task.parameterOverrides);
+        workflowToExecute = applyParameterOverrides(workflow.workflow, task.parameterOverrides);
+      }
+
       // Execute workflow via ComfyUI service
-      const result = await comfyUIService.queuePrompt(workflow.workflow);
+      const result = await comfyUIService.queuePrompt(workflowToExecute);
 
       // Update task with prompt ID
       await taskStorage.updateTaskStatus(task.id, TaskStatus.RUNNING, {
@@ -159,9 +181,13 @@ export class SchedulerService {
 
       this.emitEvent(task, 'completed');
 
-      toast.success(`Task completed: ${task.workflowName}`, {
-        description: `Executed at ${new Date().toLocaleTimeString()}`,
-      });
+      // Update tray status
+      this.updateElectronStatus();
+
+      showNotification(
+        `Task completed: ${task.workflowName}`,
+        `Executed at ${new Date().toLocaleTimeString()}`
+      );
 
       console.log(`Task completed: ${task.id}`);
     } catch (error) {
@@ -187,9 +213,10 @@ export class SchedulerService {
             taskQueue.enqueue(retryTask);
           }
 
-          toast.warning(`Task will be retried: ${task.workflowName}`, {
-            description: `Retry ${task.retryCount + 1}/${task.maxRetries}`,
-          });
+          showNotification(
+            `Task will be retried: ${task.workflowName}`,
+            `Retry ${task.retryCount + 1}/${task.maxRetries}`
+          );
         }
       } else {
         // Mark as failed
@@ -200,9 +227,13 @@ export class SchedulerService {
 
         this.emitEvent(task, 'failed');
 
-        toast.error(`Task failed: ${task.workflowName}`, {
-          description: errorMessage,
-        });
+        // Update tray status
+        this.updateElectronStatus();
+
+        showNotification(
+          `Task failed: ${task.workflowName}`,
+          errorMessage
+        );
       }
     }
   }
@@ -231,9 +262,10 @@ export class SchedulerService {
 
         this.emitEvent(task, 'missed');
 
-        toast.warning(`Task missed: ${task.workflowName}`, {
-          description: `Was scheduled for ${scheduledTime.toLocaleTimeString()}`,
-        });
+        showNotification(
+          `Task missed: ${task.workflowName}`,
+          `Was scheduled for ${scheduledTime.toLocaleTimeString()}`
+        );
       }
     }
   }
@@ -330,6 +362,24 @@ export class SchedulerService {
         console.error('Error in event callback:', error);
       }
     });
+  }
+
+  /**
+   * Update Electron tray with current scheduler status
+   */
+  private async updateElectronStatus(): Promise<void> {
+    if (isElectron() && window.electronAPI) {
+      const stats = this.getStats();
+      const pendingTasks = await taskStorage.getFilteredTasks({
+        status: TaskStatus.PENDING,
+      });
+
+      window.electronAPI.sendSchedulerStatus({
+        running: this.isRunning,
+        pendingTasks: pendingTasks.length,
+        queueSize: stats.queueStats.total,
+      });
+    }
   }
 }
 
