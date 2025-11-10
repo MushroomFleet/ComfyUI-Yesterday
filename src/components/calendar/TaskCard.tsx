@@ -1,4 +1,4 @@
-import { ScheduledTask, TaskStatus } from '@/types/scheduled-task.types';
+import { ScheduledTask, TaskStatus, RecurrenceType } from '@/types/scheduled-task.types';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,9 +17,13 @@ import {
   XCircle,
   AlertCircle,
   Ban,
+  Settings2,
+  Repeat,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { getOverridesSummary } from '@/utils/workflow-parameters';
+import { getRecurrenceLabel, getRecurrenceColorClasses } from '@/utils/recurring-tasks';
 
 interface TaskCardProps {
   task: ScheduledTask;
@@ -99,7 +103,7 @@ export function TaskCard({ task, onDelete, onExecute, onCancel }: TaskCardProps)
           </p>
 
           {/* Status Badge */}
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
             <Badge
               variant="secondary"
               className={cn('text-xs', config.color, config.bgColor)}
@@ -112,6 +116,22 @@ export function TaskCard({ task, onDelete, onExecute, onCancel }: TaskCardProps)
             {task.priority > 1 && (
               <Badge variant="outline" className="text-xs">
                 {task.priority === 3 ? 'Urgent' : 'High'} Priority
+              </Badge>
+            )}
+
+            {/* Recurrence Badge */}
+            {task.recurrenceType && task.recurrenceType !== RecurrenceType.NONE && (
+              <Badge variant="outline" className={cn('text-xs', getRecurrenceColorClasses(task.recurrenceType))}>
+                <Repeat className="h-3 w-3 mr-1" />
+                {getRecurrenceLabel(task.recurrenceType)}
+              </Badge>
+            )}
+
+            {/* Parameter Customization Badge */}
+            {task.parameterOverrides && (
+              <Badge variant="outline" className="text-xs text-accent border-accent/50">
+                <Settings2 className="h-3 w-3 mr-1" />
+                {getOverridesSummary(task.parameterOverrides)}
               </Badge>
             )}
           </div>

@@ -10,11 +10,18 @@ import {
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useScheduledTasks } from '@/hooks';
-import { TaskPriority } from '@/types/scheduled-task.types';
+import { TaskPriority, RecurrenceType } from '@/types/scheduled-task.types';
+import { ParameterOverrides } from '@/types/workflow-parameters.types';
 import { WorkflowSelector } from './WorkflowSelector';
 import { TimeSlotSelector } from './TimeSlotSelector';
+import { WorkflowParameterPanel } from './WorkflowParameterPanel';
 import { useToast } from '@/hooks/use-toast';
-import { Calendar, Clock, Zap } from 'lucide-react';
+import { useWorkflowLibrary } from '@/hooks/useWorkflowLibrary';
+import { getOverridesSummary } from '@/utils/workflow-parameters';
+import { generateRecurringTasks, getRecurrenceSummary } from '@/utils/recurring-tasks';
+import { Calendar, Clock, Zap, Settings2, Repeat } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import {
   Select,
   SelectContent,
@@ -38,10 +45,18 @@ export function ScheduleTaskModal({
   const [selectedDate, setSelectedDate] = useState<Date>(defaultDate || new Date());
   const [selectedTime, setSelectedTime] = useState<string>('12:00');
   const [priority, setPriority] = useState<TaskPriority>(TaskPriority.NORMAL);
+  const [recurrenceType, setRecurrenceType] = useState<RecurrenceType>(RecurrenceType.NONE);
+  const [parameterOverrides, setParameterOverrides] = useState<ParameterOverrides>({
+    randomizeSeeds: false,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { createTask } = useScheduledTasks();
+  const { createTask, createTasksBulk } = useScheduledTasks();
+  const { workflows } = useWorkflowLibrary();
   const { toast } = useToast();
+
+  // Get the selected workflow
+  const selectedWorkflow = workflows.find((w) => w.id === selectedWorkflowId);
 
   // Update selected date when defaultDate changes
   useEffect(() => {
@@ -79,22 +94,45 @@ export function ScheduleTaskModal({
         return;
       }
 
-      await createTask({
+      // Prepare parameter overrides (only include if there are actual overrides)
+      const hasOverrides = parameterOverrides.randomizeSeeds || 
+                          (parameterOverrides.promptOverrides && Object.keys(parameterOverrides.promptOverrides).length > 0);
+
+      const baseTaskInput = {
         workflowId: selectedWorkflowId,
         scheduledTime: scheduledDateTime,
         priority,
         maxRetries: 3,
-      });
+        parameterOverrides: hasOverrides ? parameterOverrides : undefined,
+      };
 
-      toast({
-        title: 'Task scheduled',
-        description: `Workflow will execute on ${scheduledDateTime.toLocaleDateString()} at ${selectedTime}`,
-      });
+      // Generate tasks based on recurrence type
+      if (recurrenceType === RecurrenceType.NONE) {
+        // Single task
+        await createTask(baseTaskInput);
+        
+        const overridesSummary = hasOverrides ? ` (${getOverridesSummary(parameterOverrides)})` : '';
+        toast({
+          title: 'Task scheduled',
+          description: `Workflow will execute on ${scheduledDateTime.toLocaleDateString()} at ${selectedTime}${overridesSummary}`,
+        });
+      } else {
+        // Recurring tasks
+        const taskInputs = generateRecurringTasks(baseTaskInput, recurrenceType);
+        await createTasksBulk(taskInputs);
+        
+        toast({
+          title: 'Recurring tasks scheduled',
+          description: `Created ${taskInputs.length} ${recurrenceType} tasks over 3 months`,
+        });
+      }
 
       // Reset form
       setSelectedWorkflowId('');
       setSelectedTime('12:00');
       setPriority(TaskPriority.NORMAL);
+      setRecurrenceType(RecurrenceType.NONE);
+      setParameterOverrides({ randomizeSeeds: false });
       onOpenChange(false);
     } catch (error) {
       console.error('Error scheduling task:', error);
@@ -148,6 +186,35 @@ export function ScheduleTaskModal({
             />
           </div>
 
+          {/* Recurrence Selection */}
+          <div className="space-y-2">
+            <Label htmlFor="recurrence" className="flex items-center gap-2">
+              <Repeat className="h-4 w-4 text-accent" />
+              Recurrence
+            </Label>
+            <Select
+              value={recurrenceType}
+              onValueChange={(value) => setRecurrenceType(value as RecurrenceType)}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={RecurrenceType.NONE}>One-time</SelectItem>
+                <SelectItem value={RecurrenceType.DAILY}>Daily</SelectItem>
+                <SelectItem value={RecurrenceType.WEEKLY}>Weekly</SelectItem>
+                <SelectItem value={RecurrenceType.MONTHLY}>Monthly</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-sm text-muted-foreground">
+              {getRecurrenceSummary(
+                new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 
+                  parseInt(selectedTime.split(':')[0]), parseInt(selectedTime.split(':')[1])),
+                recurrenceType
+              )}
+            </p>
+          </div>
+
           {/* Priority Selection */}
           <div className="space-y-2">
             <Label htmlFor="priority">Priority</Label>
@@ -177,6 +244,32 @@ export function ScheduleTaskModal({
               Higher priority tasks execute first when multiple tasks are scheduled at the same time.
             </p>
           </div>
+
+          {/* Parameter Customization */}
+          {selectedWorkflow && (
+            <>
+              <Separator />
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Settings2 className="h-4 w-4 text-accent" />
+                  <Label className="text-base">Customize Parameters</Label>
+                  {(parameterOverrides.randomizeSeeds || 
+                    (parameterOverrides.promptOverrides && Object.keys(parameterOverrides.promptOverrides).length > 0)) && (
+                    <Badge variant="default" className="text-xs">
+                      {getOverridesSummary(parameterOverrides)}
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Customize seed and prompt parameters for this scheduled task.
+                </p>
+                <WorkflowParameterPanel
+                  workflow={selectedWorkflow}
+                  onOverridesChange={setParameterOverrides}
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <DialogFooter>
