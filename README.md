@@ -751,3 +751,24 @@ ComfyUI-Yesterday is production-ready for single-user, local ComfyUI instances. 
 **Made with ❤️ for the ComfyUI community**
 
 *Schedule your creative future with ComfyUI-Yesterday* 🎨⏰📅
+
+## 📚 Citation
+
+### Academic Citation
+
+If you use this codebase in your research or project, please cite:
+
+```bibtex
+@software{comfyui_yesterday,
+  title = {ComfyUI Yesterday: calendar-based scheduling and workflow library management},
+  author = {[Drift Johnson]},
+  year = {2025},
+  url = {https://github.com/MushroomFleet/ComfyUI-Yesterday},
+  version = {1.0.0}
+}
+```
+
+### Donate:
+
+
+[![Ko-Fi](https://cdn.ko-fi.com/cdn/kofi3.png?v=3)](https://ko-fi.com/driftjohnson)
